@@ -1,28 +1,13 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
+<head>
+    <meta charset="UTF-8">
     <title>Register</title>
-  </head>
-  <body>
-    <h1>Register Page</h1>
-    {% with messages = get_flashed_messages() %}
-      {% if messages %}
-        <ul>
-          {% for message in messages %}
-            <li>{{ message }}</li>
-          {% endfor %}
-        </ul>
-      {% endif %}
-    {% endwith %}
-    <form action="/register" method="post">
-      <label for="username">Username:</label>
-      <input type="text" id="username" name="username">
-      <br>
-      <label for="password">Password:</label>
-      <input type="password" id="password" name="password">
-      <br>
-      <input type="submit" value="Register">
-    </form>
-  </body>
+</head>
+<body>
+    <h1>Register</h1>
+    <p>Choose your registration type:</p>
+    <a href="{{ url_for('register_role', role='influencer') }}">Register as Influencer</a><br>
+    <a href="{{ url_for('register_role', role='brand') }}">Register as Brand</a>
+</body>
 </html>

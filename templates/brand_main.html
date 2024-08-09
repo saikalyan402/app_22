@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brand Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <header>
+        <h1>Brand Dashboard</h1>
+        <nav>
+            <a href="{{ url_for('logout') }}">Logout</a>
+        </nav>
+    </header>
+    <main>
+        <section>
+            <h2>Welcome, {{ session['user_id'] }}</h2>
+            <p>This is your brand dashboard.</p>
+        </section>
+        <section>
+            <h3>Your Campaigns</h3>
+            <!-- Link to create a new campaign -->
+            <a href="{{ url_for('new_campaign') }}" class="button">Create New Campaign</a>
+            <!-- Display the list of campaigns -->
+            <ul>
+                {% for campaign in campaigns %}
+                <li>
+                    <strong>{{ campaign.name }}</strong> - {{ campaign.niche }} <br>
+                    Start Date: {{ campaign.start_date.strftime('%Y-%m-%d') }} <br>
+                    End Date: {{ campaign.end_date.strftime('%Y-%m-%d') }} <br>
+                    Budget: ${{ campaign.budget }} <br>
+                    Private: {{ 'Yes' if campaign.is_private else 'No' }} <br>
+                    <a href="{{ url_for('update_campaign', campaign_id=campaign.id) }}" class="button">Update</a> |
+                    <form action="{{ url_for('delete_campaign', campaign_id=campaign.id) }}" method="POST" style="display:inline;">
+                        <button type="submit" class="button" onclick="return confirm('Are you sure you want to delete this campaign?');">Delete</button>
+                    </form>
+                </li>
+                {% else %}
+                <li>No campaigns found. <a href="{{ url_for('new_campaign') }}">Create one now</a>.</li>
+                {% endfor %}
+            </ul>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2024 Brand Platform</p>
+    </footer>
+</body>
+</html>

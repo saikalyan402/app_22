@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Negotiate Ad Request</title>
+</head>
+<body>
+    <h1>Negotiate Payment Amount</h1>
+    <form action="{{ url_for('negotiate_ad_request', ad_request_id=ad_request.id) }}" method="post">
+        <label for="payment_amount">New Payment Amount:</label>
+        <input type="text" id="payment_amount" name="payment_amount" value="{{ ad_request.payment_amount }}">
+        <button type="submit">Submit</button>
+    </form>
+    <a href="{{ url_for('view_ad_requests') }}">Back to Ad Requests</a>
+</body>
+</html>

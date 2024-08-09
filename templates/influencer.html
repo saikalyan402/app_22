@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Influencer Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <header>
+        <h1>Influencer Dashboard</h1>
+        <nav>
+            <a href="{{ url_for('logout') }}">Logout</a>
+        </nav>
+    </header>
+    <main>
+        <section>
+            <h2>Welcome, {{ session['user_id'] }}</h2>
+            <p>This is your influencer dashboard.</p>
+        </section>
+        <section>
+            <h3>Your Campaigns</h3>
+            <!-- Display influencer's campaigns here -->
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2024 Influencer Platform</p>
+    </footer>
+</body>
+</html>

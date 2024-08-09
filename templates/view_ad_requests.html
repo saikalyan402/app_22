@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Ad Requests</title>
+</head>
+<body>
+    <h1>Ad Requests</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Influencer ID</th>
+                <th>Campaign ID</th>
+                <th>Payment Amount</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for ad_request in ad_requests %}
+            <tr>
+                <td>{{ ad_request.influencer_id }}</td>
+                <td>{{ ad_request.campaign_id }}</td>
+                <td>{{ ad_request.payment_amount }}</td>
+                <td>{{ ad_request.status }}</td>
+                <td>
+                    {% if ad_request.status == 'pending' %}
+                        <form action="{{ url_for('accept_ad_request', ad_request_id=ad_request.id) }}" method="post">
+                            <button type="submit">Accept</button>
+                        </form>
+                        <form action="{{ url_for('reject_ad_request', ad_request_id=ad_request.id) }}" method="post">
+                            <button type="submit">Reject</button>
+                        </form>
+                        <a href="{{ url_for('negotiate_ad_request', ad_request_id=ad_request.id) }}">Negotiate</a>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

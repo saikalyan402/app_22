@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Register as {{ role.capitalize() }}</title>
+</head>
+<body>
+    <h1>Register as {{ role.capitalize() }}</h1>
+    <form method="POST">
+        <label for="username">Username:</label><br>
+        <input type="text" id="username" name="username" required><br><br>
+
+        <label for="email">Email:</label><br>
+        <input type="email" id="email" name="email" required><br><br>
+
+        <label for="password">Password:</label><br>
+        <input type="password" id="password" name="password" required><br><br>
+
+        {% if role.lower() == 'brand' %}
+            <label for="brand_name">Brand Name:</label><br>
+            <input type="text" id="brand_name" name="brand_name" required><br><br>
+        {% endif %}
+
+        <button type="submit">Register</button>
+    </form>
+</body>
+</html>

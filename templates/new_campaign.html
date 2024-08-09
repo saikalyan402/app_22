@@ -2,24 +2,31 @@
 {% block content %}
 <h1>Create New Campaign</h1>
 <form method="POST">
-    <label for="name">Name:</label>
-    <input type="text" id="name" name="name" required><br>
-    
+    <label for="name">Campaign Name:</label>
+    <input type="text" id="name" name="name" required>
+
     <label for="niche">Niche:</label>
-    <input type="text" id="niche" name="niche" required><br>
-    
+    <input type="text" id="niche" name="niche" required>
+
     <label for="start_date">Start Date:</label>
-    <input type="date" id="start_date" name="start_date" required><br>
-    
+    <input type="date" id="start_date" name="start_date" required>
+
     <label for="end_date">End Date:</label>
-    <input type="date" id="end_date" name="end_date" required><br>
-    
+    <input type="date" id="end_date" name="end_date" required>
+
     <label for="budget">Budget:</label>
-    <input type="number" id="budget" name="budget" step="0.01" required><br>
-    
-    <label for="is_private">Private Campaign:</label>
-    <input type="checkbox" id="is_private" name="is_private"><br>
-    
+    <input type="number" id="budget" name="budget" step="0.01" required>
+
+    <label for="is_private">Private:</label>
+    <input type="checkbox" id="is_private" name="is_private">
+
+    <label for="desc">Description:</label>
+    <textarea id="desc" name="desc"></textarea>
+
+    <label for="requirement">Requirements:</label>
+    <textarea id="requirement" name="requirement"></textarea>
+
     <button type="submit">Create Campaign</button>
 </form>
+
 {% endblock %}

@@ -2,24 +2,31 @@
 {% block content %}
 <h1>Update Campaign</h1>
 <form method="POST">
-    <label for="name">Name:</label>
-    <input type="text" id="name" name="name" value="{{ campaign.name }}" required><br>
-    
+    <label for="name">Campaign Name:</label>
+    <input type="text" id="name" name="name" value="{{ campaign.name }}" required>
+
     <label for="niche">Niche:</label>
-    <input type="text" id="niche" name="niche" value="{{ campaign.niche }}" required><br>
-    
+    <input type="text" id="niche" name="niche" value="{{ campaign.niche }}" required>
+
     <label for="start_date">Start Date:</label>
-    <input type="date" id="start_date" name="start_date" value="{{ campaign.start_date }}" required><br>
-    
+    <input type="date" id="start_date" name="start_date" value="{{ campaign.start_date.strftime('%Y-%m-%d') }}" required>
+
     <label for="end_date">End Date:</label>
-    <input type="date" id="end_date" name="end_date" value="{{ campaign.end_date }}" required><br>
-    
+    <input type="date" id="end_date" name="end_date" value="{{ campaign.end_date.strftime('%Y-%m-%d') }}" required>
+
     <label for="budget">Budget:</label>
-    <input type="number" id="budget" name="budget" step="0.01" value="{{ campaign.budget }}" required><br>
-    
-    <label for="is_private">Private Campaign:</label>
-    <input type="checkbox" id="is_private" name="is_private" {% if campaign.is_private %}checked{% endif %}><br>
-    
+    <input type="number" id="budget" name="budget" step="0.01" value="{{ campaign.budget }}" required>
+
+    <label for="is_private">Private:</label>
+    <input type="checkbox" id="is_private" name="is_private" {% if campaign.is_private %}checked{% endif %}>
+
+    <label for="desc">Description:</label>
+    <textarea id="desc" name="desc">{{ campaign.desc }}</textarea>
+
+    <label for="requirement">Requirements:</label>
+    <textarea id="requirement">{{ campaign.requirement }}</textarea>
+
     <button type="submit">Update Campaign</button>
 </form>
+
 {% endblock %}

@@ -52,7 +52,10 @@ class Campaign(db.Model):
     is_private = db.Column(db.Boolean, nullable=False)
     brand_id = db.Column(db.Integer, db.ForeignKey('brand.id'), nullable=False)
     brand = db.relationship('Brand', backref=db.backref('campaigns', lazy=True))
+    desc = db.Column(db.String(1000), nullable=True)
+    requirement = db.Column(db.String(1000), nullable=True)
     ad_requests = db.relationship('AdRequest', backref='campaign', lazy=True)
+
 
 
 class AdRequest(db.Model):
@@ -154,7 +157,30 @@ def influencer_home():
 def brand_home():
     if 'user_id' not in session:
         return redirect(url_for('login'))
-    return render_template('brand_main.html')
+    
+    user_id = session.get('user_id')
+    print(f"User ID from session: {user_id}")
+    
+    user = db.session.get(User, user_id)
+    if not user:
+        flash('Unauthorized access.')
+        return redirect(url_for('login'))
+
+    brand = Brand.query.filter_by(user_id=user.id).first()
+    if not brand:
+        flash('Unauthorized access.')
+        return redirect(url_for('login'))
+
+    campaigns = Campaign.query.filter_by(brand_id=brand.id).all()
+    
+    if not campaigns:
+        print("No campaigns found for this brand.")
+    else:
+        for campaign in campaigns:
+            print(f"Found campaign: {campaign.name}")
+
+    return render_template('brand_main.html', campaigns=campaigns)
+
 
 @app.route('/admin_dashboard')
 def admin_dashboard():
@@ -196,7 +222,7 @@ def campaigns():
         flash('Unauthorized access.')
         return redirect(url_for('login'))
 
-    campaigns = Campaign.query.filter_by(brand_id=Brand.id).all()
+    campaigns = Campaign.query.filter_by(brand_id=brand.id).all()
     return render_template('campaigns.html', campaigns=campaigns)
 
 @app.route('/campaigns/new', methods=['GET', 'POST'])
@@ -204,14 +230,14 @@ def new_campaign():
     # if 'user_id' not in session:
     #     return redirect(url_for('login'))
 
-    # user_id = session.get('user_id')
-    # user = User.query.get(user_id)
+    user_id = session.get('user_id')
+    user = User.query.get(user_id)
     # if not user:
     #     flash('Unauthorized access.')
     #     return redirect(url_for('login'))
 
     # # Check if user is a Brand
-    # brand = Brand.query.filter_by(user_id=user.id).first()
+    brand = Brand.query.filter_by(user_id=user.id).first()
     # if not brand:
     #     flash('Unauthorized access.')
     #     return redirect(url_for('login'))
@@ -223,7 +249,8 @@ def new_campaign():
         end_date = datetime.strptime(request.form['end_date'], '%Y-%m-%d')
         budget = float(request.form['budget'])
         is_private = 'is_private' in request.form  # Checkbox
-        brand_id = int(request.form['brand_id'])  # Ensure this is an integer
+        desc = request.form.get('desc')  # Get the description from the form
+        requirement = request.form.get('requirement') 
 
 
         new_campaign = Campaign(
@@ -233,13 +260,16 @@ def new_campaign():
             end_date=end_date,
             budget=budget,
             is_private=is_private,
-            brand_id=brand.id
+            brand_id=brand.id,
+            desc=desc,  # Save the description
+            requirement=requirement  # Save the requirement 
         )
 
         db.session.add(new_campaign)
         db.session.commit()
         flash('Campaign created successfully!')
-        return redirect(url_for('admin_dashboard'))
+
+        return redirect(url_for('brand_home'))
 
     return render_template('new_campaign.html')
 
@@ -268,6 +298,8 @@ def update_campaign(campaign_id):
         campaign.end_date = datetime.strptime(request.form['end_date'], '%Y-%m-%d')
         campaign.budget = float(request.form['budget'])
         campaign.is_private = 'is_private' in request.form
+        campaign.desc = request.form.get('desc')  # Update the description
+        campaign.requirement = request.form.get('requirement')  # Update the requirement    
 
         db.session.commit()
         flash('Campaign updated successfully!')

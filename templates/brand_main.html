@@ -31,6 +31,8 @@
                     End Date: {{ campaign.end_date.strftime('%Y-%m-%d') }} <br>
                     Budget: ${{ campaign.budget }} <br>
                     Private: {{ 'Yes' if campaign.is_private else 'No' }} <br>
+                    Description: {{ campaign.desc }} <br>
+                    Requirements: {{ campaign.requirement }} <br>
                     <a href="{{ url_for('update_campaign', campaign_id=campaign.id) }}" class="button">Update</a> |
                     <form action="{{ url_for('delete_campaign', campaign_id=campaign.id) }}" method="POST" style="display:inline;">
                         <button type="submit" class="button" onclick="return confirm('Are you sure you want to delete this campaign?');">Delete</button>
